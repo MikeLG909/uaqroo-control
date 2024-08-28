@@ -86,6 +86,7 @@
             </a>
          </li>
 
+         @if(Auth::user()->rol_id == 3)
          
          <li class="menu ">
             <a href="/mi-buzon" aria-expanded="false" class="dropdown-toggle">
@@ -98,6 +99,7 @@
                </div>
             </a>
          </li>
+         @endif
          @if(Auth::user()->rol_id == 2)
 
          <li class="menu ">

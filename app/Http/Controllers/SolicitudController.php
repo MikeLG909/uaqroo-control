@@ -35,6 +35,7 @@ class SolicitudController extends Controller
         $solicitud->usuario_id = Auth::user()->usuario_id;
         $solicitud->mensaje = $request->mensaje;
         $solicitud->area_id = $request->area;
+        $solicitud->estado = 'PENDIENTE';
         $solicitud->mensaje = $request->mensaje;
         $solicitud->save();
 
@@ -64,6 +65,7 @@ class SolicitudController extends Controller
                         ->join('persona as c', 'b.usuario_id', '=', 'c.usuario_id')
                         ->join('areas as e', 'a.area_id', '=', 'e.area_id')
                         ->select('c.nombre', 'c.ape_materno', 'c.ape_paterno', 'a.created_at', 'a.solicitud_id', 'a.estado')
+                        ->orderBy('a.created_at', 'desc')  // Ordenar por fecha de creación descendente
                         ->get();
         
       /*  foreach($solicitudes as $solicitud) {

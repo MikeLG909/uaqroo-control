@@ -81,7 +81,9 @@
         <form method="POST" action="{{ route('solicitud.acceso') }}">
           @csrf
           <label class="form-label text-sm fw-medium">Usuarios que requieren acceso</label>
+          @if(Auth::user()->rol_id == 2)
           <div class="text-muted mb-2">Elija todos o algunos usuarios para que se les conceda el acceso.</div>
+          @endif
           <!-- Inicio del thead de la tabla -->
           <table class="table table-hover table-striped table-bordered">
             <thead>
@@ -129,14 +131,18 @@
             <!-- Fin del tbody de la tabla -->
           </table>
           <!-- Fin de la tabla -->
+          @if(Auth::user()->rol_id == 2)
           <button type="submit" class="btn btn-success">Conceder permiso a todos los usuarios seleccionados</button>
+          @endif
         </form>
       </div>
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end gap-2 p-4">
     <!-- Botón de Denegar fuera del formulario -->
+    @if(Auth::user()->rol_id == 2)
     <button class="btn btn-danger">Denegar</button>
+    @endif
   </div>
 </div>
 
