@@ -31,6 +31,9 @@ class DashController extends Controller
         $total = $conteo_permitido + $conteo_denegado;
         $porcentaje_perm = $total == 0 ? 0 : ($conteo_permitido / $total) * 100;
         $porcentaje_deneg = $total == 0 ? 0 : ($conteo_denegado / $total) * 100;
+        //limitamos los decimales a solo mostrar 2 con bcdiv
+        $porcentaje_perm = bcdiv($porcentaje_perm, '1', 2);
+        $porcentaje_deneg = bcdiv($porcentaje_deneg, '1', 2);
 
         // Crear gráfico semanal 
         $eventos_m = EventosAcceso::accesosSemanalesM();

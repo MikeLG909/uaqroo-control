@@ -55,11 +55,8 @@ class ApiUaqrooController extends Controller
 
         //desencriptar el email
         $user_email = openssl_decrypt($emailDecoded2, 'aes-256-cbc', $key, 0, $iv);
-        Log::info('Email desencriptado: ' . $user_email);
-       // dd($user_email);
-        $user = User::where('email', $user_email)->firstOrFail();
-        Log::info('Usuario encontrado: ' . $user->usuario_id);
 
+        $user = User::where('email', $user_email)->first();
         $user_id = $user->usuario_id;
     
         $e = new EventosAcceso;
@@ -82,23 +79,25 @@ class ApiUaqrooController extends Controller
         // carbon de PHP dateTime utilzada por Laravel, para el manejo
         // de fechas y tiempos más sencilla y fluida, en este caso 
         // verifica si espires_at esta en futuro.                      
-        $expiresAt = Carbon::parse($validacion->expires_at);          
-        if($validacion && (!$validacion->expires_at || Carbon::parse($validacion->expires_at)->isFuture()))  {
-            $e->permiso = 'PERMITIDO';
+        
+        if (!$validacion) {
+            $e->permiso = "NO PERMITIDO";
             $e->save();
-            Log::info('Acceso permitido');
-            return response()->json(['acceso' => true]);
-        } else {
-            $e->permiso = 'NO PERMITIDO';
+            return response()->json([
+                'acceso' => false,
+                'mensaje' => 'No tiene permiso para acceder a esta área'
+            ]);
+        } elseif (!$validacion->expires_at || Carbon::parse($validacion->expires_at)->isFuture()) {
+            $e->permiso = "PERMITIDO";
             $e->save();
-            Log::info('Acceso no permitido');
-
-           // $user->notify(new AccesoNoAutorizadoNotification());
-
-            return response()->json(['acceso' => false]);
+            return response()->json([
+                'acceso' => true,
+                'mensaje' => 'Acceso permitido'
+            ]);
         }
+
+        
     } catch (\Exception $e) {
-        Log::error('Error: ' . $e->getMessage());
         return response()->json(['acceso' => false, 'error' => $e->getMessage()], 500);
     }
                                     

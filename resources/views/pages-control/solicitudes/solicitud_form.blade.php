@@ -61,19 +61,6 @@
     </div>
     <!-- /BREADCRUMB -->
 
-    <div id="navSection" data-bs-spy="affix" class="nav  sidenav">
-        <div class="sidenav-content">
-            <a href="#flStackForm" class="active nav-link">Utilities</a>
-            <a href="#flHorizontalForm" class="nav-link">Horizontal form</a>
-            <a href="#flHorizontalFormlabel" class="nav-link">Horizontal form label</a>
-            <a href="#flLoginForm" class="nav-link">Gutter</a>
-            <a href="#flFormsGrid" class="nav-link">Form Grid</a>
-            <a href="#flAutoSizing" class="nav-link">Auto-sizing</a>
-            <a href="#flInlineForm" class="nav-link">Inline Forms</a>
-        </div>
-    </div>
-    
-
 
     <div class="card shadow-sm w-100 mx-auto">
   <div class="card-header">

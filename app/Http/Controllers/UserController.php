@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Persona;
+use App\Models\Area;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+
 
 
 class UserController extends Controller
@@ -99,6 +102,13 @@ class UserController extends Controller
         $user = User::userIn();
         
         $user_email = $user->email;
+
+        $sql = DB::table('areas')
+        ->join('autorizaciones_usuarios', 'areas.area_id', '=', 'autorizaciones_usuarios.area_id')
+        ->select('area.nombre', 'autorizaciones_usuario.expires_at')
+        ->where('autorizaciones_usuario.usuario_id', Auth::user()->usuario_id);
+
+
         //encriptacion usando la funcioon oppenssl_encrypt para aes 256
         $key = env('ENCRYPTION_KEY');
 
